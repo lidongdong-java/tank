@@ -1,0 +1,3 @@
+tansNumber=20
+goodfs=com.dongdong.tank.FourDirFireStategy
+badfs=com.dongdong.tank.DefaultFireStategy
