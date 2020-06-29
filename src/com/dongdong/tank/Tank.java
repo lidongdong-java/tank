@@ -17,20 +17,31 @@ public class Tank extends GameObject {
 	TankFram tf;
 	Group group;
 	Rectangle rectangle = new Rectangle();
+	private int oldX,oldY;
 	FireStrategy fs = null;;
-	GameMoudel gm;
 
-	public Tank(int x, int y, Dir dir, GameMoudel gm, Group g, int speed) {
+	public Tank(int x, int y, Dir dir, Group g, int speed) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
-		this.gm = gm;
 		this.group = g;
 		this.SPEED = speed;
 		rectangle.height = TANK_HEIGHT;
 		rectangle.width = TANK_WIDTH;
+		GameMoudel.INSTANCE.add(this);
 	}
+
+	
+	public Rectangle getRectangle() {
+		return rectangle;
+	}
+
+
+	public void setRectangle(Rectangle rectangle) {
+		this.rectangle = rectangle;
+	}
+
 
 	public int getX() {
 		return x;
@@ -78,7 +89,7 @@ public class Tank extends GameObject {
 
 	public void paint(Graphics g) {
 		if (!living) {
-			gm.remove(this);
+			GameMoudel.INSTANCE.remove(this);
 			return;
 		}
 		switch (dir) {
@@ -106,6 +117,8 @@ public class Tank extends GameObject {
 	 * 移动坦克
 	 */
 	private void move() {
+		oldX=x;
+		oldY=y;
 		if (!isMoving) {
 			return;
 		}
@@ -139,6 +152,11 @@ public class Tank extends GameObject {
 		rectangle.x = this.x;
 		rectangle.y = this.y;
 	}
+	public void back() {
+		y=oldY;
+		x=oldX;
+	}
+	
 
 	// 边界检测 不能让坦克 开出去
 	private void boundsCheck() {
@@ -167,7 +185,7 @@ public class Tank extends GameObject {
 	public void fire() {
 		int bx = this.x + Tank.TANK_WIDTH / 2 - Bullet.BULLE_WIDTH / 2;
 		int by = this.y + Tank.TANK_HEIGHT / 2 - Bullet.BULLE_HEIGHT / 2;
-		new Bullet(bx, by, this.dir, this.gm, this.group);
+		new Bullet(bx, by, this.dir,  this.group);
 		if (this.group == Group.GOOD) {
 			new Thread(new Runnable() {
 				@Override

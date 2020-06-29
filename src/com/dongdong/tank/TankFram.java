@@ -17,7 +17,7 @@ public class TankFram extends Frame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	GameMoudel gameMoudel=new GameMoudel();
+
 
 	static final int GAME_WIDTH = 1080, GAME_HEIGHT = 960;
 
@@ -41,7 +41,7 @@ public class TankFram extends Frame {
 
 	@Override
 	public void paint(Graphics g) {
-		gameMoudel.paint(g);
+		GameMoudel.INSTANCE.paint(g);
 	}
 
 	Image offScreenImage = null;
@@ -113,7 +113,7 @@ public class TankFram extends Frame {
 				bD = false;
 				break;
 			case KeyEvent.VK_CONTROL:
-				gameMoudel.getMaintank().fire();
+				GameMoudel.INSTANCE.getMaintank().fire();
 				
 				break;
 			default:
@@ -126,7 +126,7 @@ public class TankFram extends Frame {
 		 * 根据键值 改变坦克方向 或者发射子弹
 		 */
 		private void setMainDir() {
-			Tank myTank=gameMoudel.getMaintank();
+			Tank myTank=GameMoudel.INSTANCE.getMaintank();
 			if (!bD && !bL && !bR && !bU) {
 				myTank.setMoving(false);
 			} else {

@@ -7,27 +7,35 @@ import java.util.List;
 
 import com.dongdong.tank.core.BulletTankCollider;
 import com.dongdong.tank.core.Collider;
+import com.dongdong.tank.core.ColliderChain;
 
 public class GameMoudel {
-	
-	//创建我方坦克
-	Tank myTank = new Tank(400, 800, Dir.DOWN,this,Group.GOOD,5);
+	public static GameMoudel INSTANCE=new GameMoudel();
 	static final int GAME_WIDTH = 1080, GAME_HEIGHT = 960;
-	Collider collider=new BulletTankCollider();
+	Tank myTank;
+	//创建我方坦克
+	static {
+		INSTANCE.init();
+	}
+	
 	//爆炸
 //	List<Tank> tanks=new ArrayList<Tank>();
 //	List<Exlpode> exlpodes=new ArrayList<>();
 //	//子弹集合
 //	List<Bullet> bullets=new ArrayList<Bullet>();
+	ColliderChain chain=new ColliderChain();
 	List<GameObject> objects=new ArrayList<GameObject>();
-	public GameMoudel() {
+	private GameMoudel() {
 		
-	int initCount=Integer.parseInt((String) PropertyMgr.get("tansNumber"));
-		myTank.isMoving=false;
-		for (int i = 1; i < initCount; i++) {
-			add(new Tank(i*80, 200, Dir.DOWN, this,Group.BAD,1));
-		}
-		add(myTank);
+	}
+	private void init() {
+		myTank=new Tank(400, 800, Dir.DOWN,Group.GOOD,5);
+	
+		int initCount=Integer.parseInt((String) PropertyMgr.get("tansNumber"));
+			for (int i = 1; i < initCount; i++) {
+				new Tank(i*80, 200, Dir.DOWN, Group.BAD,1);
+			}
+	
 	}
 	public void add(GameObject go) {
 		this.objects.add(go);
@@ -45,7 +53,6 @@ public class GameMoudel {
 //		g.drawString("子弹数量"+bullets.size(), 10, 60);
 //		g.drawString("敌人数量"+tanks.size(), 10, 80);
 		g.setColor(color);
-		myTank.paint(g);
 		for (int i=0;i<objects.size();i++) {
 			objects.get(i).paint(g);
 		}
@@ -55,7 +62,8 @@ public class GameMoudel {
 		//子弹碰撞检测
 		for (int i = 0; i < objects.size(); i++) {
 			for (int j = i+1; j < objects.size(); j++) {
-				collider.collid(objects.get(i), objects.get(j));
+//				collider.collid(objects.get(i), objects.get(j));
+				chain.collid(objects.get(i),objects.get(j));
 			}
 		}
 //		for (int i=0;i<exlpodes.size();i++) {

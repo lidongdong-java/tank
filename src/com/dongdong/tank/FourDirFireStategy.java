@@ -10,7 +10,7 @@ public class FourDirFireStategy implements FireStrategy {
 		int by = tank.y + Tank.TANK_HEIGHT / 2 - Bullet.BULLE_HEIGHT / 2;
 		Dir[] dirs=Dir.values();
 		for (int i = 0; i < dirs.length; i++) {
-			new Bullet(bx, by, dirs[i], tank.gm, tank.group);
+			new Bullet(bx, by, dirs[i], tank.group);
 		}
 		
 		if (tank.group==Group.GOOD) {

@@ -14,23 +14,21 @@ public class Bullet extends GameObject {
 	private boolean alive=true;
 	private Group group=Group.BAD;
 	Rectangle rectangle=new Rectangle();
-	GameMoudel gm=new GameMoudel();
 
 	
 	public int getX() {
 		return x;
 	}
 
-	public Bullet(int x, int y, Dir dir,GameMoudel gm,Group group) {
+	public Bullet(int x, int y, Dir dir,Group group) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
-		this.gm=gm;
 		this.group=group;
 		rectangle.height=BULLE_HEIGHT;
 		rectangle.width=BULLE_WIDTH;
-		gm.add(this);
+		GameMoudel.INSTANCE.add(this);
 	}
 
 	public void setX(int x) {
@@ -77,7 +75,7 @@ public class Bullet extends GameObject {
 	public void paint(Graphics g) {
 
 		if (!alive) {
-			gm.remove(this);
+			GameMoudel.INSTANCE.remove(this);
 		}
 		switch (dir) {
 		case DOWN:
@@ -136,7 +134,7 @@ public class Bullet extends GameObject {
 			this.die();
 			int ex=tank.getX()+Tank.TANK_WIDTH/2-Exlpode.WIDTH/2;
 			int ey=tank.getY()+Tank.TANK_HEIGHT/2-Exlpode.HEIGHT/2;
-			gm.add(new Exlpode(ex, ey, gm));
+			new Exlpode(ex, ey);
 			new Thread(new Runnable() {
 				@Override
 				public void run() {

@@ -1,3 +1,4 @@
 tansNumber=20
 goodfs=com.dongdong.tank.FourDirFireStategy
 badfs=com.dongdong.tank.DefaultFireStategy
+colliders=com.dongdong.tank.core.BulletTanlCollider,com.dongdong.tank.core.TankTanlCollider
